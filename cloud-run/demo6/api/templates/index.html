@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login con Google Firebase</title>
+    <meta name="google-signin-client_id" content="240880376226-hup4h9c0a5n72ri41kpcsjrni9be17al.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script type="text/javascript">
+        const firebaseConfig = {
+          apiKey: "AIzaSyAJMIZ2aYfGuwqT6EO06W4yrJ_C3B-eT-E",
+          authDomain: "dev-apps-ikurana.firebaseapp.com",
+          projectId: "dev-apps-ikurana",
+          storageBucket: "dev-apps-ikurana.appspot.com",
+          messagingSenderId: "240880376226",
+          appId: "1:240880376226:web:202dff4aa5334af63cfafb"
+        };
+      
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged( userInfo => {
+            if( userInfo ){
+              console.log(userInfo)
+              var id_token = userInfo.qa;
+
+                // Enviar el token al backend
+                fetch('/verify_token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + id_token
+                    },
+                    body: JSON.stringify({ "Hola": "Mundo" })
+                })
+                .then(response => {
+                    // Verificar si la respuesta es satisfactoria
+                    if (!response.ok) {
+                        // Si la respuesta tiene un error, lanzar un error con el código de estado
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json(); // Convertir a JSON si es exitoso
+                })
+                .then(data => {
+                    console.log('Usuario autenticado:', data);
+                    alert('Login exitoso. Bienvenido ' + data.email);
+                })
+            } else {
+              
+            }
+        })
+    </script>
+</head>
+<body>
+    <h1>Login con Google</h1>
+    
+    <!-- Botón de Google Sign-In -->
+    <button class="" onClick="onSignIn1()">Login</div>
+    
+    <!-- Script para manejar el login -->
+    <script>
+        function onSignIn1() {
+            
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+            .then(function() {
+                // Existing and future Auth states are now persisted in the current
+                // session only. Closing the window would clear any existing state even
+                // if a user forgets to sign out.
+                // ...
+                // New sign-in will be persisted with session persistence.
+                return firebase.auth().signInWithPopup( provider )
+                .then((response)=>{
+                    console.log(response)
+                })
+                .catch( err => {
+                    console.log( 1, err )
+                    document.querySelector( '.bIniciar.oculto' ) && document.querySelector( '.bIniciar.oculto' ).classList.remove( 'oculto' )
+                });
+            })
+        }
+
+        // Para cerrar la sesión
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+</body>
+</html>

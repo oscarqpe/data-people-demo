@@ -1,0 +1,61 @@
+# openapi-definition.yaml
+swagger: "2.0"
+host: "api-gtw-test-1m0vl1idzryup.apigateway.dev-apps-ikurana.cloud.goog"
+x-google-endpoints:
+- name: "api-gtw-test-1m0vl1idzryup.apigateway.dev-apps-ikurana.cloud.goog"
+  allowCors: True
+
+info:
+  title: API Data Plattaform
+  description: Serverless APIs
+  version: 1.0.0
+schemes:
+ - https
+produces:
+ - application/json
+securityDefinitions:
+  firebase:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    # Replace YOUR-PROJECT-ID with your project ID
+    x-google-issuer: "https://securetoken.google.com/dev-apps-ikurana"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+    x-google-audiences: "dev-apps-ikurana"
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
+paths:
+  /:
+    get:
+      tags:
+      - "Login Page"
+      summary: Login
+      operationId: login.page
+      x-google-backend:
+        address: https://hello-world-6-rjjdx7lt6q-uc.a.run.app/ #Replace with Cloud Function URL
+        deadline: 120.0
+        protocol: h2
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+  /verify_token:
+    post:
+      tags:
+      - "Verify Token"
+      summary: Verify Token
+      operationId: verify.token
+      x-google-backend:
+        address: https://hello-world-6-rjjdx7lt6q-uc.a.run.app/verify_token #Replace with Cloud Function URL
+        deadline: 120.0
+        protocol: h2
+      security:
+        - firebase: []
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string

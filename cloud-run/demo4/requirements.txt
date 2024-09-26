@@ -1,0 +1,4 @@
+Flask==2.3.2
+google-auth==2.14.1
+google-auth-oauthlib==0.4.6
+PyJWT

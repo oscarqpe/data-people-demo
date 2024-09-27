@@ -20,6 +20,6 @@ gcloud run jobs $1 ${RUN_JOB} \
   --region $REGION \
   --project=$PROJECT_ID \
   --service-account $SERVICE_ACCOUNT \
-  --task-timeout 60m
+  --task-timeout 24h
 
 # --parallelism [# de tareas]

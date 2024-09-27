@@ -83,10 +83,10 @@ SERVICE_ACCOUNT_1="test-sa-imp1-data-people@dev-apps-ikurana.iam.gserviceaccount
 SERVICE_ACCOUNT_2="test-sa-imp2-data-people@dev-apps-ikurana.iam.gserviceaccount.com"
 
 # example 1
-query_bigquery(SERVICE_ACCOUNT_1)
+#query_bigquery(SERVICE_ACCOUNT_2)
 
 # example 2
 BUCKET = "test-data-people-day6"
 FILE = "pokemon.jpg"
 DESTINATION = f"./download/{FILE}"
-#download_blob(BUCKET, FILE, DESTINATION, SERVICE_ACCOUNT_2)
+download_blob(BUCKET, FILE, DESTINATION, SERVICE_ACCOUNT_1)
